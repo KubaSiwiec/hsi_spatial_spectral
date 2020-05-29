@@ -18,32 +18,32 @@ def get_patches(image, size = 3, use_padding = 'SAME'):
     patches = view_as_windows(image_padded, patch_size)
     return patches
 
-def grey_to_lbp(patch):
+def grey_to_lbp(image):
 
-    patch_shape = patch.shape
-    patch_width = patch_shape[0]
-    patch_height = patch_shape[1]
-    patch_depth = patch_shape[2]
+    image_shape = image.shape
+    image_width = image_shape[0]
+    image_height = image_shape[1]
+    image_depth = image_shape[2]
 
-    # print("Shape: {}, Width: {}, Height: {}, Depth: {}".format(patch_shape, patch_width, patch_height, patch_depth))
+    # print("Shape: {}, Width: {}, Height: {}, Depth: {}".format(image_shape, image_width, image_height, image_depth))
 
-    #get the patch shape
-    central_pixel = patch[int((patch_width - 1) / 2), int((patch_height - 1) / 2), :]
+    #get the image shape
+    central_pixel = image[int((image_width - 1) / 2), int((image_height - 1) / 2), :]
 
     # print("Central pixel: {}".format(central_pixel))
 
-    lbp_map = np.zeros(patch.shape)
-    # dimensions of the patch: (patch_width,patch_height,patch_depth)
+    lbp_map = np.zeros(image.shape)
+    # dimensions of the image: (image_width,image_height,image_depth)
     # for each of k channels
-    for k in range(patch_depth):
+    for k in range(image_depth):
         # compare each pixel greyscale value with the central pixel
-        for i in range(patch_width):
-            for j in range(patch_height):
-                if patch[i,j,k] >= central_pixel[k]:
+        for i in range(image_width):
+            for j in range(image_height):
+                if image[i,j,k] >= central_pixel[k]:
                     lbp_map[i,j,k] = 1
-                elif patch[i,j,k] < central_pixel[k]:
+                elif image[i,j,k] < central_pixel[k]:
                     lbp_map[i,j,k] = 0
-                # setting the central pixel to 0.5 removes the noisy pixel from the middle of a patch
+                # setting the central pixel to 0.5 removes the noisy pixel from the middle of a image
                 #but LBP map stops to be binary
                 #when using it, remove the eqaul sign from the first conditional equation
                 # else:
@@ -54,32 +54,32 @@ def grey_to_lbp(patch):
     return lbp_map
 
 
-def grey_to_clbp(patch):
+def grey_to_clbp(image):
 
-    patch_shape = patch.shape
-    patch_width = patch_shape[0]
-    patch_height = patch_shape[1]
-    patch_depth = patch_shape[2]
+    image_shape = image.shape
+    image_width = image_shape[0]
+    image_height = image_shape[1]
+    image_depth = image_shape[2]
 
-    # print("Shape: {}, Width: {}, Height: {}, Depth: {}".format(patch_shape, patch_width, patch_height, patch_depth))
+    # print("Shape: {}, Width: {}, Height: {}, Depth: {}".format(image_shape, image_width, image_height, image_depth))
 
-    #get the patch shape
-    central_pixel = patch[int((patch_width - 1) / 2), int((patch_height - 1) / 2), :]
+    #get the image shape
+    central_pixel = image[int((image_width - 1) / 2), int((image_height - 1) / 2), :]
 
     # print("Central pixel: {}".format(central_pixel))
 
-    lbp_map = np.zeros(patch.shape)
-    # dimensions of the patch: (patch_width,patch_height,patch_depth)
+    lbp_map = np.zeros(image.shape)
+    # dimensions of the image: (image_width,image_height,image_depth)
     # for each of k channels
-    for k in range(patch_depth):
+    for k in range(image_depth):
         # compare each pixel greyscale value with the central pixel
-        for i in range(patch_width):
-            for j in range(patch_height):
-                if patch[i,j,k] >= central_pixel[k]:
+        for i in range(image_width):
+            for j in range(image_height):
+                if image[i,j,k] >= central_pixel[k]:
                     lbp_map[i,j,k] = 1
-                elif patch[i,j,k] < central_pixel[k]:
+                elif image[i,j,k] < central_pixel[k]:
                     lbp_map[i,j,k] = 0
-                # setting the central pixel to 0.5 removes the noisy pixel from the middle of a patch
+                # setting the central pixel to 0.5 removes the noisy pixel from the middle of a image
                 #but LBP map stops to be binary
                 #when using it, remove the eqaul sign from the first conditional equation
                 # else:
@@ -93,5 +93,5 @@ def grey_to_clbp(patch):
 
 
 
-def hs_to_grey(patch):
-    return np.mean(patch, axis = 2)
+def hs_to_grey(image):
+    return np.mean(image, axis = 2)
