@@ -55,6 +55,7 @@ def grey_to_lbp(image):
 
 
 def grey_to_clbp(image):
+    #here, the treshold will be set as mean of the image, not as value of specific central pixel
 
     image_shape = image.shape
     image_width = image_shape[0]
@@ -68,26 +69,22 @@ def grey_to_clbp(image):
 
     # print("Central pixel: {}".format(central_pixel))
 
-    lbp_map = np.zeros(image.shape)
+    clbp_map = np.zeros(image.shape)
     # dimensions of the image: (image_width,image_height,image_depth)
     # for each of k channels
     for k in range(image_depth):
-        # compare each pixel greyscale value with the central pixel
+        # compare each pixel greyscale value with the mean of the image
+
+        #get mean of a layer
+        channel_mean = np.mean(image[:, :, k])
         for i in range(image_width):
             for j in range(image_height):
-                if image[i,j,k] >= central_pixel[k]:
-                    lbp_map[i,j,k] = 1
-                elif image[i,j,k] < central_pixel[k]:
-                    lbp_map[i,j,k] = 0
-                # setting the central pixel to 0.5 removes the noisy pixel from the middle of a image
-                #but LBP map stops to be binary
-                #when using it, remove the eqaul sign from the first conditional equation
-                # else:
-                #     lbp_map[i,j,k] = 0.5
+                if image[i,j,k] >= channel_mean:
+                    clbp_map[i,j,k] = 1
+                elif image[i,j,k] < channel_mean:
+                    clbp_map[i,j,k] = 0
 
-    print('lbp map: {}'.format(lbp_map))
-
-    return lbp_map
+    return clbp_map
 
 
 
