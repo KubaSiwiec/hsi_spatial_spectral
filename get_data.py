@@ -23,16 +23,34 @@ def grey_to_lbp(patch):
     patch_shape = patch.shape
     patch_width = patch_shape[0]
     patch_height = patch_shape[1]
+    patch_depth = patch_shape[2]
 
-    # print("Shape: {}, Width: {}, Height: {}".format(patch_shape, patch_width, patch_height))
+    # print("Shape: {}, Width: {}, Height: {}, Depth: {}".format(patch_shape, patch_width, patch_height, patch_depth))
 
     #get the patch shape
     central_pixel = patch[int((patch_width - 1) / 2), int((patch_height - 1) / 2), :]
 
     # print("Central pixel: {}".format(central_pixel))
 
+    lbp_map = np.zeros(patch.shape)
+    # dimensions of the patch: (patch_width,patch_height,patch_depth)
+    # for each of k channels
+    for k in range(patch_depth):
+        # compare each pixel greyscale value with the central pixel
+        for i in range(patch_width):
+            for j in range(patch_height):
+                if patch[i,j,k] >= central_pixel[k]:
+                    lbp_map[i,j,k] = 1
+                else:
+                    lbp_map[i,j,k] = 0
+
+    print('lbp map: {}'.format(lbp_map))
+
+    return lbp_map
 
 
 
-def to_grey(patch):
+
+
+def hs_to_grey(patch):
     return np.mean(patch, axis = 2)
