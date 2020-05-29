@@ -18,18 +18,6 @@ print("Maximum value: {}".format(np.argmax(data)))
 
 print("Index of maximum value: {}".format(np.unravel_index(np.argmax(data), data.shape)))
 
-grey_scale_data = np.zeros([610, 340])
-
-
-for i in range(grey_scale_data.shape[0]):
-    for j in range(grey_scale_data.shape[1]):
-        sum_pixel = np.sum(data[i, j, :])
-        # print(sum_pixel)
-        grey_scale_data[i, j] = int(sum_pixel / 103)
-print(grey_scale_data)
-
-print(np.argmax(grey_scale_data))
-
 '''
 Crop patches
 '''
@@ -40,28 +28,18 @@ print("Shape of patches array: {}\n".format(data_patches_hsi.shape))
 
 print(data_patches_hsi[0,0,0])
 
+get_data.grey_to_lbp(data_patches_hsi[0,0,0])
+
+# print(get_data.to_grey(data_patches_hsi[8,5,0]))
+
+plt.figure(1)
+plt.imshow(get_data.to_grey(data_patches_hsi[90,80,0]), cmap= 'gray')
+plt.show()
+
 
 
 '''
 Layer to LBP
 '''
 
-
-
-
-
-plt.figure(1)
-plt.imshow(grey_scale_data, cmap="gray")    #may scale the color to maximum 255 or 2048
-plt.show()
-
-
-channels = []
-for channel_index in range(data.shape[2]):
-    # print(data[:, :, channel_index])
-
-    channels.append(data[:, :, channel_index])
-
-# print(channels[0])
-
-#print(data[:, :, 58])
 
