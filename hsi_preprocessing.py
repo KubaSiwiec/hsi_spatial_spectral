@@ -14,8 +14,8 @@ def get_patches(image, size = 3, use_padding = 'SAME'):
     # choose symmetric mode
     image_padded = pad(image, nb_padding_pixels, 'symmetric')
 
-    patch_size = (size, size, 103)
-    patches = view_as_windows(image_padded, patch_size)
+    patch_size = (size, size, image.shape[2])
+    patches = view_as_windows(image_padded, patch_size)[:, :, 0]
     return patches
 
 def grey_to_lbp(image):
@@ -92,3 +92,30 @@ def grey_to_clbp(image):
 
 def hs_to_grey(image):
     return np.mean(image, axis = 2)
+
+def arr2D_to_list(arr: np.array):
+    dims = len(arr.shape)
+    lst = []
+    if dims == 2:
+        print('Gt width: {}, length: {}'.format(arr.shape[0], arr.shape[1]))
+        for i in range(arr.shape[0]):
+            for j in range(arr.shape[1]):
+                lst.append(arr[i, j])
+
+        return lst
+    else:
+        raise Exception('Array should be two dimentional')
+
+def arr5D_to_list_of_3D_arr(arr: np.array):
+    dims = len(arr.shape)
+    lst = []
+    if dims == 5:
+        for i in range(arr.shape[0]):
+            for j in range(arr.shape[1]):
+                    lst.append(arr[i, j])
+        return lst
+    else:
+        raise Exception('Array should be two dimentional')
+
+
+
